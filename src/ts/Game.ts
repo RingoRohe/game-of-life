@@ -5,7 +5,7 @@ import Dot from './models/Dot';
 const defaultOptions: GameOptions = {
     fps: 4,
     periodicBoundaries: true,
-    dotSize: 10
+    dotSize: 20
 }
 
 export default class Game {
@@ -50,6 +50,14 @@ export default class Game {
                 this.dots[i][j].draw();
             }
         }
+
+        this.canvas.addEventListener('click', e => {
+            this.iterations = 0;
+            let i = Math.floor((e.offsetY - offsetY) / this.options.dotSize!);
+            let j = Math.floor((e.offsetX - offsetX) / this.options.dotSize!);
+            this.dots[i][j].active = !this.dots[i][j].active;
+            this.dots[i][j].draw();
+        });
     }
 
     iterate(): void {
@@ -102,7 +110,20 @@ export default class Game {
                 if (y === this.dots[x].length - 1 && j > 0) {
                     y2 = -1;
                 }
-                numNeighbours += this.dots[x2 + i][y2 + j].active ? 1 : 0;
+
+                if (
+                    !this.options.periodicBoundaries &&
+                    (
+                        (x === 0 && i < 0) ||
+                        (x === this.dots.length - 1 && i > 0) ||
+                        (y === 0 && j < 0) ||
+                        (y === this.dots[x].length - 1 && j > 0)
+                    )
+                ) {
+                    continue;
+                } else {
+                    numNeighbours += this.dots[x2 + i][y2 + j].active ? 1 : 0;
+                }
             }
         }
 
