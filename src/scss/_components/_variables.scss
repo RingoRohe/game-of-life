@@ -1,29 +1,15 @@
 $white: white;
-$black: #1c1c1c;
-$dark: #0c0c0c;
+$black: #0c0c0c;
+$dark: #1c1c1c;
 $grey: #383838;
-$light-grey: #9b9b9b;
+$grey-light: #9b9b9b;
 $primary: #38dab0;
 $primary-dark: #0c4435;
 $primary-very-dark: darken($primary, 80%);
 $secondary: #db3964;
 $primary-light: lighten($primary, 20%);
 
-$power_none: hsl(250, 0, 50);
-$power_low: hsl(220, 100, 60);
-$power_easy: hsl(150, 100, 40);
-$power_high: hsl(45, 100, 50);
-$power_hard: hsl(10, 100, 40);
-
 $spacer: 2rem;
-
-$navbar-padding-x: $spacer * 2.5;
-$navbar-padding-y: $spacer * 2;
-$navbar-dark-color: $grey;
-$navbar-dark-hover-color: $primary;
-$navbar-dark-active-color: $primary;
-$navbar-dark-disabled-color: rgba($grey, 0.25);
-$navbar-dark-toggler-border-color: $black;
 
 $grid-breakpoints: (
     xs: 0,

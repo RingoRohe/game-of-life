@@ -11,7 +11,7 @@ function initialize() {
     canvas.setAttribute('width', canvas.offsetWidth.toString());
     canvas.setAttribute('height', canvas.offsetHeight.toString());
 
-    const game: Game = new Game(canvas);
+    const game: Game = new Game(canvas, { fps: 4 });
 
     document.querySelector('body')?.addEventListener('click', e => {
         if (game.running) {

@@ -1,4 +1,12 @@
+import GameOptions from './interfaces/gameoptions';
 import Dot from './models/Dot';
+
+
+const defaultOptions: GameOptions = {
+    fps: 4,
+    periodicBoundaries: true,
+    dotSize: 10
+}
 
 export default class Game {
     private canvas: HTMLCanvasElement;
@@ -6,26 +14,31 @@ export default class Game {
     private width: number;
     private height: number;
     private dots: Dot[][] = [];
-    private fps: number;
+    private iterations: number;
+    private textColor: string;
+    private options: GameOptions;
 
     public running: boolean;
 
-    constructor(canvas: HTMLCanvasElement) {
-        this.fps = 4;
+    constructor(canvas: HTMLCanvasElement, options?: GameOptions) {
+        this.iterations = 0;
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.width = canvas.offsetWidth;
         this.height = canvas.offsetHeight;
+        this.textColor = getComputedStyle(document.documentElement).getPropertyValue('--gameboard-text');
         this.running = false;
+
+        this.options = { ...defaultOptions, ...options };
 
         this.initialize();
     }
 
     initialize(): void {
-        const numHorizontally = Math.floor(this.width / Dot.size);
-        const numVertically = Math.floor(this.height / Dot.size);
-        const offsetX: number = Math.floor((this.width - (numHorizontally * Dot.size)) / 2);
-        const offsetY: number = Math.floor((this.height - (numVertically * Dot.size)) / 2);
+        const numHorizontally = Math.floor(this.width / this.options.dotSize!);
+        const numVertically = Math.floor(this.height / this.options.dotSize!);
+        const offsetX: number = Math.floor((this.width - (numHorizontally * this.options.dotSize!)) / 2);
+        const offsetY: number = Math.floor((this.height - (numVertically * this.options.dotSize!)) / 2);
 
         console.log('canvas', `${this.width} x ${this.height}`);
         console.log('grid', `${numHorizontally} x ${numVertically}`);
@@ -33,7 +46,7 @@ export default class Game {
         for (let i = 0; i < numVertically; i++) {
             this.dots[i] = [];
             for (let j = 0; j < numHorizontally; j++) {
-                this.dots[i][j] = new Dot(this.ctx, offsetX + (Dot.size * j), offsetY + (Dot.size * i));
+                this.dots[i][j] = new Dot(this.ctx, offsetX + (this.options.dotSize! * j), offsetY + (this.options.dotSize! * i), this.options.dotSize!);
                 this.dots[i][j].draw();
             }
         }
@@ -64,7 +77,7 @@ export default class Game {
         });
 
         this.dots = newDots;
-
+        this.iterations++;
         this.draw();
     }
 
@@ -105,6 +118,14 @@ export default class Game {
                 dot.draw();
             });
         });
+
+        if (this.ctx) {
+            this.ctx.fillStyle = this.textColor;
+            this.ctx.font = '14px Arial';
+            this.ctx.textAlign = 'right';
+            this.ctx.textBaseline = 'bottom';
+            this.ctx?.fillText(this.iterations.toString(), this.width - 10, this.height - 10);
+        }
     }
 
     start(): void {
@@ -123,6 +144,6 @@ export default class Game {
             if (this.running) {
                 requestAnimationFrame(() => { this.animate(); });
             }
-        }, 1000 / this.fps);
+        }, 1000 / this.options.fps!);
     }
 }
