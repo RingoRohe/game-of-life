@@ -47,17 +47,28 @@ export default class Game {
             this.dots[i] = [];
             for (let j = 0; j < numHorizontally; j++) {
                 this.dots[i][j] = new Dot(this.ctx, offsetX + (this.options.dotSize! * j), offsetY + (this.options.dotSize! * i), this.options.dotSize!);
-                this.dots[i][j].draw();
             }
         }
+
+        this.draw();
 
         this.canvas.addEventListener('click', e => {
             this.iterations = 0;
             let i = Math.floor((e.offsetY - offsetY) / this.options.dotSize!);
             let j = Math.floor((e.offsetX - offsetX) / this.options.dotSize!);
             this.dots[i][j].active = !this.dots[i][j].active;
-            this.dots[i][j].draw();
+            this.draw();
         });
+    }
+
+    clear(): void {
+        this.dots.forEach((row: Dot[], i) => {
+            row.forEach((dot: Dot, j) => {
+                dot.active = false;
+            });
+        });
+        this.iterations = 0;
+        this.draw();
     }
 
     iterate(): void {
@@ -152,10 +163,16 @@ export default class Game {
     start(): void {
         this.running = true;
         this.animate();
+        if (this.options.onStart) {
+            this.options.onStart!();
+        }
     }
 
     stop(): void {
         this.running = false;
+        if (this.options.onStop) {
+            this.options.onStop();
+        }
     }
 
     animate(): void {

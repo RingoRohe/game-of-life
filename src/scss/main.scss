@@ -1,6 +1,10 @@
 @import "./_components/variables";
 
+@import "./_functions/str-replace";
+
 @import "./_components/base";
+@import "./_components/controls";
 @import "./_components/gameboard";
 @import "./_components/header";
+@import "./_components/settings";
 @import "./_components/typography";

@@ -5,9 +5,10 @@
   "scripts": {
     "start": "rm -rf dist/* && parcel src/index.html",
     "dev": "rm -rf dist/* && parcel src/index.html --open",
-    "build": "rm -rf dist/* && parcel build src/index.html",
+    "build": "rm -rf dist/* && parcel build src/index.html --public-url '.'",
     "report": "rm -rf parcel-bundle-reports/* && parcel build src/index.html --reporter @parcel/reporter-bundle-analyzer",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "npm run build && rsync -azvP --exclude {'.gitignore','README.md'} ./dist/ uberspace:html/projects/projects/game-of-life/"
   },
   "keywords": [],
   "author": "",

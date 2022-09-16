@@ -1,6 +1,6 @@
 #gameboard {
-    width: 90%;
-    height: 100%;
+    width: calc(100vw - 2rem);
+    height: 85vh;
 
     background-color: $dark;
 }

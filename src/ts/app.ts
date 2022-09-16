@@ -1,8 +1,10 @@
 "use strict";
 
 import Game from './Game';
+import GameOptions from './interfaces/gameoptions';
 
 function initialize() {
+    const body: HTMLBodyElement = <HTMLBodyElement>document.querySelector('body');
     const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.querySelector('#gameboard');
 
     // take current size of Canvas and setting it hard in case it was a % or VW or ...
@@ -11,15 +13,41 @@ function initialize() {
     canvas.setAttribute('width', canvas.offsetWidth.toString());
     canvas.setAttribute('height', canvas.offsetHeight.toString());
 
-    const game: Game = new Game(canvas, { periodicBoundaries: false });
+    let options: GameOptions = {
+        periodicBoundaries: false,
+        onStart: () => {
+            body.classList.add('running');
+        },
+        onStop: () => {
+            body.classList.remove('running');
+        }
+    }
 
-    document.querySelector('header > h1')?.addEventListener('click', e => {
-        if (game.running) {
-            game.stop();
-        } else {
+    let game: Game = new Game(canvas, options);
+
+    document.querySelector('.controls .play')?.addEventListener('click', e => {
+        if (!game.running) {
             game.start();
         }
     })
+    document.querySelector('.controls .stop')?.addEventListener('click', e => {
+        if (game.running) {
+            game.stop();
+        }
+    })
+    document.querySelector('.controls .clear')?.addEventListener('click', e => {
+        game.clear();
+    })
+    document.querySelector('.controls .settings')?.addEventListener('click', e => {
+        const settingsDiv = document.querySelector('#settings');
+        settingsDiv?.classList.toggle('active');
+    })
+    document.querySelector('#input_dot-size')?.addEventListener('change', e => {
+        // @ts-ignore
+        options.dotSize = e.target?.value;
+        game.stop();
+        game = new Game(canvas, options);
+    });
 }
 
 window.addEventListener("load", () => {

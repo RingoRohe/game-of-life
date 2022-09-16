@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <base href="./">
     <!-- My meta tags -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,8 +14,25 @@
 <body>
     <header>
         <h1>Game of Life</h1>
+        <div class="controls">
+            <ul>
+                <li class="clear"></li>
+                <li class="play"></li>
+                <li class="stop"></li>
+                <li class="settings"></li>
+            </ul>
+        </div>
     </header>
     <canvas id="gameboard"></canvas>
+    <section id="settings">
+        <div class="settings-inner">
+            <h2>Settings</h2>
+            <div>
+                <label for="input_dot-size"></label>
+                <input id="input_dot-size" type="range" min="2" max="30" value="20">
+            </div>
+        </div>
+    </section>
 
     <script src="ts/app.ts" type="module" charset="utf-8"></script>
 </body>

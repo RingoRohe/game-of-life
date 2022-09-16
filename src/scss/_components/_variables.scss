@@ -1,4 +1,4 @@
-$white: white;
+$white: #FFFFFF;
 $black: #0c0c0c;
 $dark: #1c1c1c;
 $grey: #383838;
@@ -8,6 +8,10 @@ $primary-dark: #0c4435;
 $primary-very-dark: darken($primary, 80%);
 $secondary: #db3964;
 $primary-light: lighten($primary, 20%);
+
+$warn: hsl(1, 70%, 50%);
+$success: hsl(125, 70%, 40%);
+$info: hsl(61, 70%, 40%);
 
 $spacer: 2rem;
 
