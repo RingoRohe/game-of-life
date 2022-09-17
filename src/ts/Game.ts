@@ -34,6 +34,35 @@ export default class Game {
         this.initialize();
     }
 
+    get dotSize(): number {
+        // @ts-ignore
+        return this.options.dotSize || defaultOptions.dotSize;
+    }
+
+    set dotSize(value: number) {
+        this.unload()
+        this.options.dotSize = value;
+        this.initialize();
+    }
+
+    get periodicBoundaries(): boolean {
+        // @ts-ignore
+        return this.options.periodicBoundaries || defaultOptions.periodicBoundaries;
+    }
+
+    set periodicBoundaries(value: boolean) {
+        this.options.periodicBoundaries = value;
+    }
+
+    get fps(): number {
+        // @ts-ignore
+        return this.options.fps || defaultOptions.fps;
+    }
+
+    set fps(value: number) {
+        this.options.fps = value;
+    }
+
     initialize(): void {
         const numHorizontally = Math.floor(this.width / this.options.dotSize!);
         const numVertically = Math.floor(this.height / this.options.dotSize!);
@@ -43,6 +72,7 @@ export default class Game {
         console.log('canvas', `${this.width} x ${this.height}`);
         console.log('grid', `${numHorizontally} x ${numVertically}`);
 
+        this.dots = [];
         for (let i = 0; i < numVertically; i++) {
             this.dots[i] = [];
             for (let j = 0; j < numHorizontally; j++) {
@@ -59,6 +89,12 @@ export default class Game {
             this.dots[i][j].active = !this.dots[i][j].active;
             this.draw();
         });
+    }
+
+    unload(): void {
+        this.stop();
+        this.iterations = 0;
+        this.canvas.removeEventListener('click', e => { });
     }
 
     clear(): void {

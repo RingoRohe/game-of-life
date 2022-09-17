@@ -15,6 +15,7 @@
         position: absolute;
         left: 50%;
         top: 50%;
+        min-width: 50%;
         transform: translateX(-50%) translateY(-50%);
         pointer-events: all;
 
@@ -23,5 +24,26 @@
         border: 2px solid $grey;
 
         padding: 2rem;
+
+        .heading {
+            margin: 0;
+            margin-bottom: 0.75rem;
+        }
+
+        div {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            align-items: stretch;
+            margin-top: 0.75rem;
+
+            label {
+                color: $grey-light;
+            }
+
+            &:has(input[type=checkbox]) {
+                flex-direction: row;
+            }
+        }
     }
 }

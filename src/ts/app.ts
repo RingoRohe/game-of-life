@@ -44,9 +44,15 @@ function initialize() {
     })
     document.querySelector('#input_dot-size')?.addEventListener('change', e => {
         // @ts-ignore
-        options.dotSize = e.target?.value;
-        game.stop();
-        game = new Game(canvas, options);
+        game.dotSize = e.target?.value;
+    });
+    document.querySelector('#input_periodic-boundaries')?.addEventListener('change', e => {
+        // @ts-ignore
+        game.periodicBoundaries = e.target?.checked;
+    });
+    document.querySelector('#input_speed')?.addEventListener('change', e => {
+        // @ts-ignore
+        game.fps = e.target?.value;
     });
 }
 
