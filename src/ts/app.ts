@@ -13,8 +13,14 @@ function initialize() {
     canvas.setAttribute('width', canvas.offsetWidth.toString());
     canvas.setAttribute('height', canvas.offsetHeight.toString());
 
+    const inputDotSize = (<HTMLInputElement>document.querySelector('#input_dot-size'));
+    const inputPeriodicBoundaries = (<HTMLInputElement>document.querySelector('#input_periodic-boundaries'));
+    const inputSpeed = (<HTMLInputElement>document.querySelector('#input_speed'));
+
     let options: GameOptions = {
-        periodicBoundaries: false,
+        dotSize: Number(inputDotSize.value),
+        periodicBoundaries: inputPeriodicBoundaries.checked,
+        fps: Number(inputSpeed.value),
         onStart: () => {
             body.classList.add('running');
         },
@@ -42,15 +48,16 @@ function initialize() {
         const settingsDiv = document.querySelector('#settings');
         settingsDiv?.classList.toggle('active');
     })
-    document.querySelector('#input_dot-size')?.addEventListener('change', e => {
+
+    inputDotSize.addEventListener('change', e => {
         // @ts-ignore
         game.dotSize = e.target?.value;
     });
-    document.querySelector('#input_periodic-boundaries')?.addEventListener('change', e => {
+    inputPeriodicBoundaries.addEventListener('change', e => {
         // @ts-ignore
         game.periodicBoundaries = e.target?.checked;
     });
-    document.querySelector('#input_speed')?.addEventListener('change', e => {
+    inputSpeed.addEventListener('change', e => {
         // @ts-ignore
         game.fps = e.target?.value;
     });
